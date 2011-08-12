@@ -7,7 +7,7 @@
 // 'app' is the core namespace we'll use throughout
 var app = require('modules/core');
 
-// Setting app defaults.  These are simple properties appended to the app namespace
+// Setting app defaults.  These are simple properties appended to the app properties object
 app.addProperty('pages', 'modules/pages');
 app.addProperty('plugins', 'plugins');
 
