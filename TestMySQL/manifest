@@ -1,0 +1,21 @@
+#appname:TestMySQL
+#appid:com.appcelerator.TestMySQL
+#publisher:aland
+#image:default_app_logo.png
+#url:http://www.appcelerator.com
+#guid:e2ddea8d-1c38-4e9d-994b-15c9e2130c7b
+#desc:No description provided
+#type:desktop
+runtime:1.2.0.RC1
+tiapp:1.2.0.RC1
+tifilesystem:1.2.0.RC1
+tiplatform:1.2.0.RC1
+tiui:1.2.0.RC1
+python:1.2.0.RC1
+ticodec:1.2.0.RC1
+tidatabase:1.2.0.RC1
+timedia:1.2.0.RC1
+timonkey:1.2.0.RC1
+tinetwork:1.2.0.RC1
+tiprocess:1.2.0.RC1
+tiworker:1.2.0.RC1
