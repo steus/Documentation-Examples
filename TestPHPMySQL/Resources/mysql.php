@@ -1,6 +1,6 @@
 $db_host = 'localhost';
 $db_user = 'root';
-$db_pwd = 'app123';
+$db_pwd = 'testpassword';
 
 $database = 'test';
 $table = 'contacts';
