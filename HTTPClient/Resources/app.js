@@ -1,20 +1,58 @@
 Ti.UI.backgroundColor = '#dddddd';
 
-var url = "http://savagelook.com/knucklehead/ff.php?firstname=kazu"
+var url = "https://raw.github.com/appcelerator/Documentation-Examples/master/HTTPClient/data/json.txt";
 var win = Ti.UI.createWindow();
 var table = Ti.UI.createTableView();
+var tableData = [];
+var json, fighters, fighter, i, row, nameLabel, nickLabel;
+
 var xhr = Ti.Network.createHTTPClient({
 	onload: function() {
-		alert('success');
+		Ti.API.debug(this.responseText);
+		
+		json = JSON.parse(this.responseText);
+		for (i = 0; i < json.fighters.length; i++) {
+			fighter = json.fighters[i];
+			row = Ti.UI.createTableViewRow({
+				height:'60dp'
+			});
+			nameLabel = Ti.UI.createLabel({
+				text:fighter.name,
+				font:{
+					fontSize:'24dp',
+					fontWeight:'bold'
+				},
+				height:'auto',
+				left:'10dp',
+				top:'5dp'
+			});
+			nickLabel = Ti.UI.createLabel({
+				text:'"' + fighter.nickname + '"',
+				font:{
+					fontSize:'16dp'
+				},
+				height:'auto',
+				left:'15dp',
+				bottom:'5dp'
+			});
+			row.add(nameLabel);
+			row.add(nickLabel);
+			tableData.push(row);
+		}
+		
+		table.setData(tableData);
 	},
-	onerror: function() {
-		alert('error');
-	}
+	onerror: function(e) {
+		Ti.API.debug("STATUS: " + this.status);
+		Ti.API.debug("TEXT:   " + this.responseText);
+		Ti.API.debug("ERROR:  " + e.error);
+		alert('There was an error retrieving the remote data. Try again.');
+	},
+	timeout:5000
 });
 
-xhr.setTimeout(5000);
 xhr.open("GET", url);
-//loadingView.show();
 xhr.send();
 
+win.add(table);
 win.open();
