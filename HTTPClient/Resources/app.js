@@ -8,7 +8,7 @@ var json, fighters, fighter, i, row, nameLabel, nickLabel;
 
 var xhr = Ti.Network.createHTTPClient({
 	onload: function() {
-		Ti.API.debug(this.responseText);
+		// Ti.API.debug(this.responseText);
 		
 		json = JSON.parse(this.responseText);
 		for (i = 0; i < json.fighters.length; i++) {
@@ -24,7 +24,9 @@ var xhr = Ti.Network.createHTTPClient({
 				},
 				height:'auto',
 				left:'10dp',
-				top:'5dp'
+				top:'5dp',
+				color:'#000',
+				touchEnabled:false
 			});
 			nickLabel = Ti.UI.createLabel({
 				text:'"' + fighter.nickname + '"',
@@ -33,7 +35,9 @@ var xhr = Ti.Network.createHTTPClient({
 				},
 				height:'auto',
 				left:'15dp',
-				bottom:'5dp'
+				bottom:'5dp',
+				color:'#000',
+				touchEnabled:false
 			});
 			row.add(nameLabel);
 			row.add(nickLabel);
