@@ -1,7 +1,9 @@
 // Move all local 'toExternal' files to external storage, if available
 var externalFiles = {};
 var isExternalStoragePresent = Ti.Filesystem.isExternalStoragePresent();
+var imageCaptureFile = undefined;
 if (isExternalStoragePresent) {
+	imageCaptureFile = Ti.Filesystem.getFile(Ti.Filesystem.externalStorageDirectory + '/image_capture.jpg');
 	(function() {
 		var listing = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, 'toExternal').getDirectoryListing();
 		for (var i in listing) {
@@ -24,11 +26,63 @@ var recipes = [
 		})
 	},
 	{
-		title: 'View a location',
+		title: 'View image',
+		intent: Ti.Android.createIntent({
+			action: Ti.Android.ACTION_VIEW,
+			type: 'image/jpeg',
+			data: externalFiles['titanium.jpg'].nativePath
+		})
+	},
+	{
+		title: 'View location',
 		intent: Ti.Android.createIntent({
 			action: Ti.Android.ACTION_VIEW,
 			data: 'geo:37.389084,-122.050189?z=14'
 		})
+	},
+	{
+		title: 'Query location',
+		intent: Ti.Android.createIntent({
+			action: Ti.Android.ACTION_VIEW,
+			data: 'geo:0,0?q=Mountain%20View'
+		})
+	},
+	{
+		title: 'View contacts',
+		intent: Ti.Android.createIntent({
+			action: Ti.Android.ACTION_VIEW,
+			data: 'content://contacts/people/'
+		})
+	},
+	{
+		title: 'Edit contact',
+		intent: Ti.Android.createIntent({
+			action: Ti.Android.ACTION_EDIT,
+			data: 'content://contacts/people/2'
+		})
+	},
+	{
+		title: 'Capture and view image',
+		external: true,
+		intent: (function() {
+			var intent = Ti.Android.createIntent({
+				action: "android.media.action.IMAGE_CAPTURE"
+			});	
+			intent.putExtraUri('output', imageCaptureFile.nativePath);
+			return intent;
+		})(),
+		callback: function(e) {
+			if (imageCaptureFile.exists) {
+				var intent = Ti.Android.createIntent({
+					action: Ti.Android.ACTION_VIEW,
+					type: 'image/jpeg',
+					data: imageCaptureFile.nativePath
+				});
+				Ti.Android.currentActivity.startActivity(intent);
+			} else {
+				alert('Unable to save captured image!');
+			}
+		}
 	},
 	{
 		title: 'View a PDF',
@@ -80,7 +134,11 @@ var recipes = [
 
 var startActivity = function(e) {
 	try {
-		Ti.Android.currentActivity.startActivity(e.row.intent);
+		if (e.row.callback) {
+			Ti.Android.currentActivity.startActivityForResult(e.row.intent, e.row.callback);
+		} else {
+			Ti.Android.currentActivity.startActivity(e.row.intent);
+		}
 	} catch(e) {
 		Ti.API.error(e);
 		alert('No apps installed that handle this Intent!');
@@ -106,8 +164,10 @@ var tableData = [];
 			height: '50dp',
 			backgroundColor: '#222',
 			backgroundSelectedColor: '#ddd',
-			intent: recipe.intent
+			intent: recipe.intent,
+			callback: recipe.callback
 		});
+		
 		
 		row.add(label);
 		if (recipe.external && !isExternalStoragePresent) {

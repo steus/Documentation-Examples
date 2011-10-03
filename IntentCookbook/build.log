@@ -1,28 +1,28 @@
 Logfile initialized
-[INFO] logfile = /Users/tlukasavage/Documents/Titanium Studio Workspace/IntentCookbook/build.log
-[DEBUG] /Users/tlukasavage/Library/Application Support/Titanium/mobilesdk/osx/1.7.2/android/builder.py install IntentCookbook /Users/tlukasavage/Development/android-sdk-mac_x86 /Users/tlukasavage/Documents/Titanium Studio Workspace/IntentCookbook com.appcelerator.IntentCookbook 7
+[INFO] logfile = /Users/tlukasavage/Documents/Titanium Studio Workspace/Documentation-Examples/IntentCookbook/build.log
+[DEBUG] /Users/tlukasavage/Library/Application Support/Titanium/mobilesdk/osx/1.7.2/android/builder.py install IntentCookbook /Users/tlukasavage/Development/android-sdk-mac_x86 /Users/tlukasavage/Documents/Titanium Studio Workspace/Documentation-Examples/IntentCookbook com.appcelerator.IntentCookbook 7
 [INFO] Titanium SDK version: 1.7.2 (07/21/11 09:36 97c3689)
 [DEBUG] Waiting for device to be ready ...
-[TRACE] adb devices returned 2 devices/emulators
+[TRACE] adb devices returned 1 devices/emulators
 [DEBUG] Device connected... (waited 0 seconds)
-[DEBUG] waited 0.017696 seconds on emulator to get ready
+[DEBUG] waited 0.015223 seconds on emulator to get ready
 [DEBUG] com.appcelerator.IntentCookbook installed? False
 [INFO] Copying project resources..
-[TRACE] COPYING MODIFIED FILE: /Users/tlukasavage/Documents/Titanium Studio Workspace/IntentCookbook/Resources/app.js => /Users/tlukasavage/Documents/Titanium Studio Workspace/IntentCookbook/build/android/bin/assets/Resources/app.js
+[TRACE] COPYING MODIFIED FILE: /Users/tlukasavage/Documents/Titanium Studio Workspace/Documentation-Examples/IntentCookbook/Resources/app.js => /Users/tlukasavage/Documents/Titanium Studio Workspace/Documentation-Examples/IntentCookbook/build/android/bin/assets/Resources/app.js
 [TRACE] Generating Java Classes
 [DEBUG] Processing Android resource drawables
-[DEBUG] copying app icon: /Users/tlukasavage/Documents/Titanium Studio Workspace/IntentCookbook/build/android/bin/assets/Resources/appicon.png
+[DEBUG] copying app icon: /Users/tlukasavage/Documents/Titanium Studio Workspace/Documentation-Examples/IntentCookbook/build/android/bin/assets/Resources/appicon.png
 [DEBUG] generating theme.xml
-[DEBUG] found splash screen at /Users/tlukasavage/Documents/Titanium Studio Workspace/IntentCookbook/build/android/bin/assets/Resources/default.png
+[DEBUG] found splash screen at /Users/tlukasavage/Documents/Titanium Studio Workspace/Documentation-Examples/IntentCookbook/build/android/bin/assets/Resources/default.png
 [TRACE] Writing out AndroidManifest.xml
-[DEBUG] adding /Users/tlukasavage/Documents/Titanium Studio Workspace/IntentCookbook/build/android/gen/com/appcelerator/IntentCookbook/IntentcookbookActivity.java to javac build list
-[DEBUG] adding /Users/tlukasavage/Documents/Titanium Studio Workspace/IntentCookbook/build/android/gen/com/appcelerator/IntentCookbook/IntentcookbookAppInfo.java to javac build list
-[DEBUG] adding /Users/tlukasavage/Documents/Titanium Studio Workspace/IntentCookbook/build/android/gen/com/appcelerator/IntentCookbook/IntentcookbookApplication.java to javac build list
-[DEBUG] adding /Users/tlukasavage/Documents/Titanium Studio Workspace/IntentCookbook/build/android/gen/com/appcelerator/IntentCookbook/R.java to javac build list
-[DEBUG] Building Java Sources: "/Users/tlukasavage/Documents/Titanium Studio Workspace/IntentCookbook/build/android/gen/com/appcelerator/IntentCookbook/IntentcookbookActivity.java" "/Users/tlukasavage/Documents/Titanium Studio Workspace/IntentCookbook/build/android/gen/com/appcelerator/IntentCookbook/IntentcookbookAppInfo.java" "/Users/tlukasavage/Documents/Titanium Studio Workspace/IntentCookbook/build/android/gen/com/appcelerator/IntentCookbook/IntentcookbookApplication.java" "/Users/tlukasavage/Documents/Titanium Studio Workspace/IntentCookbook/build/android/gen/com/appcelerator/IntentCookbook/R.java"
+[DEBUG] adding /Users/tlukasavage/Documents/Titanium Studio Workspace/Documentation-Examples/IntentCookbook/build/android/gen/com/appcelerator/IntentCookbook/IntentcookbookActivity.java to javac build list
+[DEBUG] adding /Users/tlukasavage/Documents/Titanium Studio Workspace/Documentation-Examples/IntentCookbook/build/android/gen/com/appcelerator/IntentCookbook/IntentcookbookAppInfo.java to javac build list
+[DEBUG] adding /Users/tlukasavage/Documents/Titanium Studio Workspace/Documentation-Examples/IntentCookbook/build/android/gen/com/appcelerator/IntentCookbook/IntentcookbookApplication.java to javac build list
+[DEBUG] adding /Users/tlukasavage/Documents/Titanium Studio Workspace/Documentation-Examples/IntentCookbook/build/android/gen/com/appcelerator/IntentCookbook/R.java to javac build list
+[DEBUG] Building Java Sources: "/Users/tlukasavage/Documents/Titanium Studio Workspace/Documentation-Examples/IntentCookbook/build/android/gen/com/appcelerator/IntentCookbook/IntentcookbookActivity.java" "/Users/tlukasavage/Documents/Titanium Studio Workspace/Documentation-Examples/IntentCookbook/build/android/gen/com/appcelerator/IntentCookbook/IntentcookbookAppInfo.java" "/Users/tlukasavage/Documents/Titanium Studio Workspace/Documentation-Examples/IntentCookbook/build/android/gen/com/appcelerator/IntentCookbook/IntentcookbookApplication.java" "/Users/tlukasavage/Documents/Titanium Studio Workspace/Documentation-Examples/IntentCookbook/build/android/gen/com/appcelerator/IntentCookbook/R.java"
 [INFO] Compiling Android Resources... This could take some time
 [DEBUG] Android classes.dex built
-[DEBUG] creating unsigned apk: /Users/tlukasavage/Documents/Titanium Studio Workspace/IntentCookbook/build/android/bin/app-unsigned.apk
+[DEBUG] creating unsigned apk: /Users/tlukasavage/Documents/Titanium Studio Workspace/Documentation-Examples/IntentCookbook/build/android/bin/app-unsigned.apk
 [DEBUG] from resource zip => assets/Resources/toExternal/titanium.jpg
 [DEBUG] from resource zip => assets/Resources/toExternal/w4.pdf
 [DEBUG] from resource zip => assets/Resources/app.js
@@ -56,8 +56,8 @@ Logfile initialized
 [DEBUG] from JAR /Users/tlukasavage/Library/Application Support/Titanium/mobilesdk/osx/1.7.2/android/titanium.jar => org/appcelerator/titanium/res/drawable/default_icon.png
 [DEBUG] from JAR /Users/tlukasavage/Library/Application Support/Titanium/mobilesdk/osx/1.7.2/android/titanium.jar => org/appcelerator/titanium/res/drawable/photoDefault.png
 [DEBUG] Waiting for device to be ready ...
-[TRACE] adb devices returned 2 devices/emulators
+[TRACE] adb devices returned 1 devices/emulators
 [DEBUG] Device connected... (waited 0 seconds)
-[DEBUG] waited 0.016199 seconds on emulator to get ready
+[DEBUG] waited 0.016016 seconds on emulator to get ready
 [INFO] Installing application on emulator
 [INFO] Application installed. Launch from drawer on Home Screen
