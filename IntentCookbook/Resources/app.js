@@ -17,135 +17,173 @@ if (isExternalStoragePresent) {
 
 // Create the list of Intent recipes. This is where you'll find the necessary
 // configurations to perform common actions with your Android Intents.
-var recipes = [
+var categories = [
 	{
-		title: 'View a URL',
-		intent: Ti.Android.createIntent({
-			action: Ti.Android.ACTION_VIEW,
-			data: 'http://www.appcelerator.com'
-		})
+		title: 'Contacts',
+		recipes: [
+			{
+				title: 'View contacts',
+				intent: Ti.Android.createIntent({
+					action: Ti.Android.ACTION_VIEW,
+					data: 'content://contacts/people/'
+				})
+			},
+			{
+				title: 'Pick a contact',
+				intent: Ti.Android.createIntent({
+					action: Ti.Android.ACTION_PICK,
+					type: 'vnd.android.cursor.dir/person'
+				}),
+				callback: function(e) {
+					setTimeout(function() { alert('Contact ID: ' + e.intent.data); }, 100);
+				}
+			},
+			{
+				title: 'Edit contact',
+				intent: (function() {
+					var contacts = Ti.Contacts.getAllPeople();
+					var contactId = parseInt(contacts[0].id) + '';
+					var contactUrl = 'content://com.android.contacts/raw_contacts/' + contactId;
+					Ti.API.debug(contactUrl);
+					var intent = Ti.Android.createIntent({
+						action: Ti.Android.ACTION_EDIT,
+						data: contactUrl
+					});
+					return intent;
+				})()
+			}
+		]
 	},
 	{
-		title: 'View image',
-		intent: Ti.Android.createIntent({
-			action: Ti.Android.ACTION_VIEW,
-			type: 'image/jpeg',
-			data: externalFiles['titanium.jpg'].nativePath
-		})
-	},
-	{
-		title: 'View location',
-		intent: Ti.Android.createIntent({
-			action: Ti.Android.ACTION_VIEW,
-			data: 'geo:37.389084,-122.050189?z=14'
-		})
-	},
-	{
-		title: 'Query location',
-		intent: Ti.Android.createIntent({
-			action: Ti.Android.ACTION_VIEW,
-			data: 'geo:0,0?q=Mountain%20View'
-		})
-	},
-	{
-		title: 'View contacts',
-		intent: Ti.Android.createIntent({
-			action: Ti.Android.ACTION_VIEW,
-			data: 'content://contacts/people/'
-		})
-	},
-	{
-		title: 'Pick a contact',
-		intent: Ti.Android.createIntent({
-			action: Ti.Android.ACTION_PICK,
-			type: 'vnd.android.cursor.dir/person'
-		}),
-		callback: function(e) {
-			setTimeout(function() { alert('Contact ID: ' + e.intent.data); }, 100);
-		}
-	},
-	{
-		title: 'Edit contact',
-		intent: (function() {
-			var contacts = Ti.Contacts.getAllPeople();
-			var contactId = parseInt(contacts[0].id) + '';
-			var contactUrl = 'content://com.android.contacts/raw_contacts/' + contactId;
-			Ti.API.debug(contactUrl);
-			var intent = Ti.Android.createIntent({
-				action: Ti.Android.ACTION_EDIT,
-				data: contactUrl
-			});
-			return intent;
-		})()
-	},
-	{
-		title: 'Capture and view image',
-		external: true,
-		intent: (function() {
-			var intent = Ti.Android.createIntent({
-				action: "android.media.action.IMAGE_CAPTURE"
-			});	
-			intent.putExtraUri('output', imageCaptureFile.nativePath);
-			return intent;
-		})(),
-		callback: function(e) {
-			if (imageCaptureFile.exists) {
-				var intent = Ti.Android.createIntent({
+		title: 'Images, Video, & Sound',
+		recipes: [
+			{
+				title: 'View image',
+				intent: Ti.Android.createIntent({
 					action: Ti.Android.ACTION_VIEW,
 					type: 'image/jpeg',
-					data: imageCaptureFile.nativePath
-				});
-				Ti.Android.currentActivity.startActivity(intent);
-			} else {
-				alert('Unable to save captured image!');
+					data: externalFiles['titanium.jpg'].nativePath
+				})
+			},
+			{
+				title: 'Capture and view image',
+				external: true,
+				intent: (function() {
+					var intent = Ti.Android.createIntent({
+						action: "android.media.action.IMAGE_CAPTURE"
+					});	
+					intent.putExtraUri('output', imageCaptureFile.nativePath);
+					return intent;
+				})(),
+				callback: function(e) {
+					if (imageCaptureFile.exists) {
+						var intent = Ti.Android.createIntent({
+							action: Ti.Android.ACTION_VIEW,
+							type: 'image/jpeg',
+							data: imageCaptureFile.nativePath
+						});
+						Ti.Android.currentActivity.startActivity(intent);
+					} else {
+						alert('Unable to save captured image!');
+					}
+				}
+			},
+			{
+				title: 'Send an image',
+				external: true,
+				intent: (function() {
+					var intent = Ti.Android.createIntent({
+						action: Ti.Android.ACTION_SEND,
+						type: 'image/jpeg'
+					});
+					intent.putExtraUri(Ti.Android.EXTRA_STREAM, externalFiles['titanium.jpg'].nativePath);
+					return intent;
+				})()
 			}
-		}
+		]	
 	},
 	{
-		title: 'View a PDF',
-		external: true,
-		intent: Ti.Android.createIntent({
-			action: Ti.Android.ACTION_VIEW,
-			type: 'application/pdf',
-			data: externalFiles['w4.pdf'].nativePath
-		})
+		title: 'Locations',
+		recipes: [
+			{
+				title: 'View location',
+				intent: Ti.Android.createIntent({
+					action: Ti.Android.ACTION_VIEW,
+					data: 'geo:37.389084,-122.050189?z=14'
+				})
+			},
+			{
+				title: 'Query location',
+				intent: Ti.Android.createIntent({
+					action: Ti.Android.ACTION_VIEW,
+					data: 'geo:0,0?q=Mountain%20View'
+				})
+			}
+		]
 	},
 	{
-		title: 'Send an image',
-		external: true,
-		intent: (function() {
-			var intent = Ti.Android.createIntent({
-				action: Ti.Android.ACTION_SEND,
-				type: 'image/jpeg'
-			});
-			intent.putExtraUri(Ti.Android.EXTRA_STREAM, externalFiles['titanium.jpg'].nativePath);
-			return intent;
-		})()
+		title: 'Misc. Viewing',
+		recipes: [
+			{
+				title: 'View a PDF',
+				external: true,
+				intent: Ti.Android.createIntent({
+					action: Ti.Android.ACTION_VIEW,
+					type: 'application/pdf',
+					data: externalFiles['w4.pdf'].nativePath
+				})
+			},
+			{
+				title: 'View a URL',
+				intent: Ti.Android.createIntent({
+					action: Ti.Android.ACTION_VIEW,
+					data: 'http://www.appcelerator.com'
+				})
+			}
+		]
 	},
 	{
-		title: 'Send some text',
-		intent: (function() {
-			var intent = Ti.Android.createIntent({
-				action: Ti.Android.ACTION_SEND,
-				type: 'text/plain'	
-			});
-			intent.putExtra(Ti.Android.EXTRA_TEXT, 'Here\'s a chunk of text to send to an Intent');
-			return intent;
-		})()
+		title: 'Phone',
+		recipes: [
+			{
+				title: 'Dial a phone number',
+				intent: Ti.Android.createIntent({
+					action: Ti.Android.ACTION_DIAL,
+					data: 'tel:5555555'
+				})
+			},
+			{
+				title: 'Call a phone number',
+				intent: Ti.Android.createIntent({
+					action: Ti.Android.ACTION_CALL,
+					data: 'tel:5555555'
+				})
+			}
+		]	
 	},
 	{
-		title: 'Dial a phone number',
-		intent: Ti.Android.createIntent({
-			action: Ti.Android.ACTION_DIAL,
-			data: 'tel:5555555'
-		})
-	},
-	{
-		title: 'Call a phone number',
-		intent: Ti.Android.createIntent({
-			action: Ti.Android.ACTION_CALL,
-			data: 'tel:5555555'
-		})
+		title: 'Text',
+		recipes: [
+			{
+				title: 'Send text',
+				intent: (function() {
+					var intent = Ti.Android.createIntent({
+						action: Ti.Android.ACTION_SEND,
+						type: 'text/plain'	
+					});
+					intent.putExtra(Ti.Android.EXTRA_TEXT, 'Here is a chunk of text to send to an Intent');
+					return intent;
+				})()
+			},
+			{
+				title: 'View Text',
+				intent: Ti.Android.createIntent({
+					action: Ti.Android.ACTION_VIEW,
+					type: 'text/plain',
+					data: 'Here is some text to view'	
+				})	
+			}
+		]	
 	}
 ];
 
@@ -162,36 +200,37 @@ var startActivity = function(e) {
 	}
 }
 
-// Create the rows for the Intent TableView
+var createIntentLabel = function(text) {
+	return Ti.UI.createLabel({
+		text: text,
+		left: '20dp',
+		font: {
+			fontWeight: 'bold',
+			fontSize: '18dp'
+		},
+		color: '#eee',
+		touchEnabled: false
+	});
+}
+
+var createIntentRow = function() {
+	return 	Ti.UI.createTableViewRow({
+		height: '60dp',
+		backgroundColor: '#222',
+		backgroundSelectedColor: '#ddd'
+	});
+}
+
+// Create the rows for the main Intent table
 var tableData = [];
-(function() {
-	for (var i in recipes) {
-		var recipe = recipes[i];
-		var label = Ti.UI.createLabel({
-			text: recipe.title,
-			left: '20dp',
-			font: {
-				fontWeight: 'bold',
-				fontSize: '18dp'
-			},
-			color: '#eee',
-			touchEnabled: false
-		});
-		var row = Ti.UI.createTableViewRow({
-			height: '50dp',
-			backgroundColor: '#222',
-			backgroundSelectedColor: '#ddd',
-			intent: recipe.intent,
-			callback: recipe.callback
-		});
+	(function() {
+	for (var i in categories) {
+		var category = categories[i];
+		var label = createIntentLabel(category.title);
+		var row = createIntentRow();
 		
-		
+		row.recipes = category.recipes;
 		row.add(label);
-		if (recipe.external && !isExternalStoragePresent) {
-			row.enabled = false;	
-		}	
-		row.addEventListener('click', startActivity);
-		
 		tableData.push(row);
 	}
 })();
@@ -207,6 +246,35 @@ var tableview = Ti.UI.createTableView({
 	headerTitle: 'Intents',
 	separatorColor: '#aaa',
 	data: tableData
+});
+
+// Open category specific window for intent testing
+tableview.addEventListener('click', function(e) {
+	var newWin = Ti.UI.createWindow({
+		navBarHidden: true	
+	});
+	var tv = Ti.UI.createTableView();
+	var data = [];
+	
+	for (var i in e.row.recipes) {
+		var recipe = e.row.recipes[i];
+		var label = createIntentLabel(recipe.title);
+		var row = createIntentRow();
+		
+		row.intent = recipe.intent;
+		row.callback = recipe.callback;
+		row.add(label);
+		if (recipe.external && !isExternalStoragePresent) {
+			row.enabled = false;	
+		}	
+		row.addEventListener('click', startActivity);
+		
+		data.push(row);
+	}
+	
+	tv.setData(data);
+	newWin.add(tv);
+	newWin.open();
 });
 
 // Cleanup our external files when the app exits
