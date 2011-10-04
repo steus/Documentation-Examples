@@ -93,6 +93,7 @@ var categories = [
 		recipes: [
 			{
 				title: 'View image',
+				external: true,
 				intent: Ti.Android.createIntent({
 					action: Ti.Android.ACTION_VIEW,
 					type: 'image/jpeg',
@@ -133,7 +134,49 @@ var categories = [
 					intent.putExtraUri(Ti.Android.EXTRA_STREAM, externalFiles['titanium.jpg'].nativePath);
 					return intent;
 				})()
-			}
+			},
+			{
+				title: 'View audio',
+				external: true,
+				intent: Ti.Android.createIntent({
+					action: Ti.Android.ACTION_VIEW,
+					type: 'audio/wav',
+					data: externalFiles['cricket.wav'].nativePath
+				})
+			},
+			{
+				title: 'Send audio',
+				external: true,
+				intent: (function() {
+					var intent = Ti.Android.createIntent({
+						action: Ti.Android.ACTION_SEND,
+						type: 'audio/wav'
+					});
+					intent.putExtraUri(Ti.Android.EXTRA_STREAM, externalFiles['cricket.wav'].nativePath);
+					return intent;
+				})()
+			},
+			{
+				title: 'View video',
+				external: true,
+				intent: Ti.Android.createIntent({
+					action: Ti.Android.ACTION_VIEW,
+					type: 'video/mp4',
+					data: externalFiles['movie.mp4'].nativePath
+				})
+			},
+			{
+				title: 'Send video',
+				external: true,
+				intent: (function() {
+					var intent = Ti.Android.createIntent({
+						action: Ti.Android.ACTION_SEND,
+						type: 'video/mp4'
+					});
+					intent.putExtraUri(Ti.Android.EXTRA_STREAM, externalFiles['movie.mp4'].nativePath);
+					return intent;
+				})()
+			},
 		]	
 	},
 	{
@@ -143,11 +186,18 @@ var categories = [
 				title: 'View location',
 				intent: Ti.Android.createIntent({
 					action: Ti.Android.ACTION_VIEW,
+					data: 'geo:37.389084,-122.050189'
+				})
+			},
+			{
+				title: 'View location (with zoom)',
+				intent: Ti.Android.createIntent({
+					action: Ti.Android.ACTION_VIEW,
 					data: 'geo:37.389084,-122.050189?z=14'
 				})
 			},
 			{
-				title: 'Query location',
+				title: 'View location (with query)',
 				intent: Ti.Android.createIntent({
 					action: Ti.Android.ACTION_VIEW,
 					data: 'geo:0,0?q=Mountain%20View'
@@ -229,7 +279,7 @@ var startActivity = function(e) {
 			Ti.Android.currentActivity.startActivity(e.row.intent);
 		}
 	} catch(e) {
-		Ti.API.error(e);
+		// Ti.API.error(e);
 		alert('No apps installed that handle this Intent!');
 	}
 }
@@ -255,6 +305,22 @@ var createIntentRow = function() {
 	});
 }
 
+var createIntentHeader = function(title) {
+	var header = Ti.UI.createView({
+		height: '40dp',
+		backgroundColor: '#852221',
+	});
+	header.add(Ti.UI.createLabel({
+		text: title,
+		color: '#ddd',
+		font: {
+			fontSize: '24dp',
+			fontWeight: 'bold'	
+		}
+	}));
+	return header;
+}
+
 // Create the rows for the main Intent table
 var tableData = [];
 	(function() {
@@ -264,6 +330,7 @@ var tableData = [];
 		var row = createIntentRow();
 		
 		row.recipes = category.recipes;
+		row.category = category.title;
 		row.add(label);
 		tableData.push(row);
 	}
@@ -277,7 +344,7 @@ var win = Ti.UI.createWindow({
 	navBarHidden: true
 });
 var tableview = Ti.UI.createTableView({
-	headerTitle: 'Intents',
+	headerView: createIntentHeader('Intents'),
 	separatorColor: '#aaa',
 	data: tableData
 });
@@ -287,7 +354,9 @@ tableview.addEventListener('click', function(e) {
 	var newWin = Ti.UI.createWindow({
 		navBarHidden: true	
 	});
-	var tv = Ti.UI.createTableView();
+	var tv = Ti.UI.createTableView({
+		headerView: createIntentHeader(e.row.category)	
+	});
 	var data = [];
 	
 	for (var i in e.row.recipes) {
