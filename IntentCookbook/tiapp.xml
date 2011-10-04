@@ -8,7 +8,7 @@
         <target device="blackberry">false</target>
     </deployment-targets>
     <id>com.appcelerator.IntentCookbook</id>
-    <name>IntentCookbook</name>
+    <name>Intent Cookbook</name>
     <version>1.0</version>
     <publisher>tlukasavage</publisher>
     <url>http://appcelerator.com</url>

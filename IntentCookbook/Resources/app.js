@@ -55,11 +55,28 @@ var recipes = [
 		})
 	},
 	{
-		title: 'Edit contact',
+		title: 'Pick a contact',
 		intent: Ti.Android.createIntent({
-			action: Ti.Android.ACTION_EDIT,
-			data: 'content://contacts/people/2'
-		})
+			action: Ti.Android.ACTION_PICK,
+			type: 'vnd.android.cursor.dir/person'
+		}),
+		callback: function(e) {
+			setTimeout(function() { alert('Contact ID: ' + e.intent.data); }, 100);
+		}
+	},
+	{
+		title: 'Edit contact',
+		intent: (function() {
+			var contacts = Ti.Contacts.getAllPeople();
+			var contactId = parseInt(contacts[0].id) + '';
+			var contactUrl = 'content://com.android.contacts/raw_contacts/' + contactId;
+			Ti.API.debug(contactUrl);
+			var intent = Ti.Android.createIntent({
+				action: Ti.Android.ACTION_EDIT,
+				data: contactUrl
+			});
+			return intent;
+		})()
 	},
 	{
 		title: 'Capture and view image',
