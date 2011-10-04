@@ -52,6 +52,23 @@ var categories = [
 				})()
 			},
 			{
+				title: 'Pick and edit contact',
+				intent: Ti.Android.createIntent({
+					action: Ti.Android.ACTION_PICK,
+					type: 'vnd.android.cursor.dir/person'
+				}),
+				callback: function(e) {
+					var parts = e.intent.data.split('/');
+					var contactId = parts[parts.length-1];
+					var contactUrl = 'content://com.android.contacts/raw_contacts/' + contactId;
+					var intent = Ti.Android.createIntent({
+						action: Ti.Android.ACTION_EDIT,
+						data: contactUrl
+					});
+					Ti.Android.currentActivity.startActivity(intent);
+				}
+			},
+			{
 				title: 'Add contact',
 				intent: (function() {
 					var intent = Ti.Android.createIntent({
