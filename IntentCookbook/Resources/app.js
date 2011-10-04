@@ -44,11 +44,28 @@ var categories = [
 					var contacts = Ti.Contacts.getAllPeople();
 					var contactId = parseInt(contacts[0].id) + '';
 					var contactUrl = 'content://com.android.contacts/raw_contacts/' + contactId;
-					Ti.API.debug(contactUrl);
 					var intent = Ti.Android.createIntent({
 						action: Ti.Android.ACTION_EDIT,
 						data: contactUrl
 					});
+					return intent;
+				})()
+			},
+			{
+				title: 'Add contact',
+				intent: (function() {
+					var intent = Ti.Android.createIntent({
+						action: 'com.android.contacts.action.SHOW_OR_CREATE_CONTACT',
+						data: 'mailto:intentcookbook@appcelerator.com'
+					});
+					
+					// more options for extras in Android docs: http://developer.android.com/reference/android/provider/Contacts.Intents.Insert.html
+					intent.putExtra('email', 'intentcookbook@appcelerator.com');
+					intent.putExtra('email_type', 'Work');
+					intent.putExtra('phone', '5555555');
+					intent.putExtra('phone_type', 'Work');
+					intent.putExtra('name', 'Intent Cookbook');
+					intent.putExtra('company', 'Appcelerator');
 					return intent;
 				})()
 			}
